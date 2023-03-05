@@ -6,10 +6,6 @@
     "version": "3.0.0",
     "orientation": "portrait",
     "icon": "./assets/appOldLogo.png",
-    "facebookAutoInitEnabled": true,
-    "facebookScheme": "fb287994216182182",
-    "facebookAppId": "287994216182182",
-    "facebookDisplayName": "NoExcusasFTC",
     "splash": {
       "image": "./assets/icon-noexlogo.png",
       "resizeMode": "contain",
@@ -39,41 +35,46 @@
       "expo-tracking-transparency"
     ],
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/4f976ebc-54f1-4b13-9a7b-94d45761774e"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
         "NSCameraUsageDescription": "This app uses the camera to upload user profile images and progress images",
-        "NSPhotoLibraryUsageDescription": "This app uses the Photo Library to upload user profile images and progress images",
-        "NSUserTrackingUsageDescription": "Your User ID will be used to keep all data stored to your specific ID for your experience"
+        "NSPhotoLibraryUsageDescription": "Allow $(PRODUCT_NAME) to access your photos to upload user profile images and progress images.",
+        "NSUserTrackingUsageDescription": "Your User ID will be used to keep all data stored to your specific ID for your experience",
+        "NSPhotoLibraryAddUsageDescription": "Allow $(PRODUCT_NAME) to save photos of results."
       },
-      "bundleIdentifier": "com.ccraig09.NoExcusasFTC",
-      "config": {
-        "googleSignIn": {
-          "reservedClientId": "com.googleusercontent.apps.734413363397-mivf0dev9bv8om1kacg2o25i7a6q30am"
-        }
-      }
+      "bundleIdentifier": "com.ccraig09.NoExcusasFTC"
     },
     "android": {
-      "useNextNotificationsApi": true,
       "adaptiveIcon": {
         "foregroundImage": "./assets/appOldLogo.png",
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.ccraig09.NoExcusasFTC",
       "googleServicesFile": "./google-services.json",
-      "config": {
-        "googleSignIn": {
-          "apiKey": "AIzaSyCQD2GHXyyKU81y8k5n2Ux_A149ADc76oY",
-          "certificateHash": "4072DEEA97234C81FBD9A5DED2836264429299D3"
-        }
-      },
-      "versionCode": 31
+      "versionCode": 31,
+      "permissions": [
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.ACCESS_MEDIA_LOCATION"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "4f976ebc-54f1-4b13-9a7b-94d45761774e"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
     }
   }
 }

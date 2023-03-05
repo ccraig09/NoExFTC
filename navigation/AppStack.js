@@ -61,6 +61,7 @@ const AppStack = () => {
         name="Home"
         component={HomeStack}
         options={{
+          headerShown: false,
           tabBarLabel: "Inicio",
           tabBarIcon: ({ color, focused }) =>
             focused ? (
@@ -74,6 +75,7 @@ const AppStack = () => {
         name="Profile"
         component={ProfileStackScreen}
         options={{
+          headerShown: false,
           tabBarLabel: "Perfil",
           tabBarIcon: ({ color }) => (
             <Icon name="person" color={color} size={26} />
@@ -84,6 +86,7 @@ const AppStack = () => {
         name="Information"
         component={InformationStack}
         options={{
+          headerShown: false,
           tabBarLabel: "Informacion",
           tabBarIcon: ({ color }) => (
             <Icon name="information-circle" color={color} size={26} />
@@ -104,6 +107,7 @@ const AppStack = () => {
         name="Settings"
         component={SettingsScreen}
         options={{
+          headerShown: false,
           tabBarLabel: "Configuraciones",
           tabBarIcon: ({ color }) => (
             <Icon name="settings" color={color} size={26} />

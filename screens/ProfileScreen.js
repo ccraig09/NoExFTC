@@ -38,6 +38,7 @@ import { Avatar, Button } from "react-native-elements";
 import EvalBlock from "../components/EvalBlock";
 // import Carousel from "../components/Carousel";
 // import Carousel from './Carousel';
+import * as Linking from "expo-linking";
 
 // import { AsyncStorage } from "react-native";
 import Colors from "../constants/Colors";
@@ -424,6 +425,18 @@ const ProfileScreen = ({ navigation }) => {
                       }}
                     >
                       <Text style={{ fontSize: 13 }}>Editar Perfil</Text>
+                    </TouchableOpacity>
+                  </View>
+                  <View style={styles.button3}>
+                    <TouchableOpacity
+                      onPress={() => {
+                        alert("Proxmimamente");
+                        // Linking.openURL(userInfo.pdf);
+                      }}
+                    >
+                      <Text style={{ fontSize: 13 }}>
+                        Mi Entrenamiento Personalizado
+                      </Text>
                     </TouchableOpacity>
                   </View>
                 </View>
@@ -837,6 +850,28 @@ const styles = StyleSheet.create({
     // marginTop: -15,
     marginTop: 5,
     width: 100,
+    height: 20,
+    marginLeft: -5,
+    backgroundColor: "#DDDDDD",
+    borderRadius: 10,
+    borderColor: "black",
+    // borderWidth: 1,
+    elevation: 5,
+    // alignSelf: "center",
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "black",
+    shadowOpacity: 0.26,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
+  },
+  button3: {
+    marginBottom: 10,
+    // marginTop: -15,
+    marginTop: 5,
+    paddingHorizontal: 5,
+
+    width: 300,
     height: 20,
     marginLeft: -5,
     backgroundColor: "#DDDDDD",
