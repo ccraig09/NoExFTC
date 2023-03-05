@@ -38,9 +38,7 @@
       "fallbackToCacheTimeout": 0,
       "url": "https://u.expo.dev/4f976ebc-54f1-4b13-9a7b-94d45761774e"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
@@ -74,7 +72,7 @@
       }
     },
     "runtimeVersion": {
-      "policy": "appVersion"
+      "policy": "sdkVersion"
     }
   }
 }

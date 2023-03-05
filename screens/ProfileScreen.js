@@ -430,8 +430,13 @@ const ProfileScreen = ({ navigation }) => {
                   <View style={styles.button3}>
                     <TouchableOpacity
                       onPress={() => {
-                        alert("Proxmimamente");
-                        // Linking.openURL(userInfo.pdf);
+                        if (userInfo?.pdf) {
+                          Linking.openURL(userInfo?.pdf);
+                        } else {
+                          alert(
+                            "No tienes un entrenmiento personalizado aun. Por favor contacta a tu entrenador"
+                          );
+                        }
                       }}
                     >
                       <Text style={{ fontSize: 13 }}>
