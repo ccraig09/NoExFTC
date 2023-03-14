@@ -42,6 +42,14 @@ import { Picker } from "@react-native-picker/picker";
 //   withSpring,
 // } from "react-native-reanimated";
 import firebase from "../components/firebase";
+
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "firebase/storage";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import { extendMoment } from "moment-range";
 
@@ -58,6 +66,7 @@ const EditProfileScreen = ({ navigation }) => {
   const [baseStartDate, setBaseStartDate] = useState(false);
   const [picked, setPicked] = useState();
   const [showPicker, setShowPicker] = useState(false);
+  const storage = getStorage();
 
   const dimensions = useWindowDimensions();
   const moment = extendMoment(Moment);
@@ -99,6 +108,7 @@ const EditProfileScreen = ({ navigation }) => {
               // }));
               // console.log(BasicData);
               setUserInfo(doc.data());
+              console.log(">>>>checking image", doc.data().userImg);
               setImage(doc.data().userImg);
             } else {
               // doc.data() will be undefined in this case
@@ -182,44 +192,34 @@ const EditProfileScreen = ({ navigation }) => {
     // let fileName = uploadUri.substring(uploadUri.lastIndexOf("/") + 1);
 
     setUploading(true);
-    setTransferred(0);
-    const storageRef = firebase
-      .storage()
-      .ref()
-      .child("UserProfileImages/" + `${user.uid}/` + "ProfileImage");
 
-    const task = storageRef.put(blob);
+    const storageRef = ref(
+      storage,
+      "UserProfileImages/" + `${user.uid}/` + "ProfileImage"
+    );
+    const task = uploadBytes(storageRef, blob).then((snapshot) => {
+      console.log("Uploaded a blob or file!");
 
-    // Set transferred state
-    task.on("state_changed", (taskSnapshot) => {
-      console.log(
-        `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`
-      );
-      setTransferred(
-        (
-          (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) *
-          100
-        ).toFixed(0)
-      );
+      try {
+        task;
+
+        const url = getDownloadURL(snapshot.ref).then((downloadURL) => {
+          console.log("File available at", downloadURL);
+          return downloadURL;
+        });
+
+        Alert.alert(
+          "Perfil Actualizado!",
+          "Tu perfil se ha actualizado exitosamente!"
+        );
+
+        navigation.goBack();
+        return url;
+      } catch (e) {
+        console.log(">>error:", e);
+        return null;
+      }
     });
-
-    try {
-      await task;
-
-      const url = await storageRef.getDownloadURL();
-
-      setUploading(false);
-      Alert.alert(
-        "Perfil Actualizado!",
-        "Tu perfil se ha actualizado exitosamente!"
-      );
-
-      navigation.goBack();
-      return url;
-    } catch (e) {
-      console.log(e);
-      return null;
-    }
   };
 
   return (
@@ -323,7 +323,7 @@ const EditProfileScreen = ({ navigation }) => {
             style={styles.textInput}
             value={userInfo ? userInfo.FirstName : ""}
             onChangeText={(text) =>
-              setUserInfo({ ...userInfo, FirstName: text })
+              setUserInfo({ ...userInfo, FirstName: text ?? "" })
             }
             autoCorrect={false}
           />
@@ -338,7 +338,7 @@ const EditProfileScreen = ({ navigation }) => {
             style={styles.textInput}
             value={userInfo ? userInfo.LastName : ""}
             onChangeText={(text) =>
-              setUserInfo({ ...userInfo, LastName: text })
+              setUserInfo({ ...userInfo, LastName: text ?? "" })
             }
             autoCorrect={false}
           />
@@ -351,7 +351,9 @@ const EditProfileScreen = ({ navigation }) => {
             placeholderTextColor="#666666"
             style={styles.textInput}
             value={userInfo ? userInfo.Phone : ""}
-            onChangeText={(text) => setUserInfo({ ...userInfo, Phone: text })}
+            onChangeText={(text) =>
+              setUserInfo({ ...userInfo, Phone: text ?? "" })
+            }
             autoCorrect={false}
             keyboardType="phone-pad"
             returnKeyType="done"
@@ -365,7 +367,9 @@ const EditProfileScreen = ({ navigation }) => {
             placeholderTextColor="#666666"
             style={styles.textInput}
             value={userInfo ? userInfo.email : ""}
-            onChangeText={(text) => setUserInfo({ ...userInfo, email: text })}
+            onChangeText={(text) =>
+              setUserInfo({ ...userInfo, email: text ?? "" })
+            }
             autoCorrect={false}
             keyboardType="email-address"
           />
@@ -378,7 +382,9 @@ const EditProfileScreen = ({ navigation }) => {
             placeholderTextColor="#666666"
             style={styles.textInput}
             value={userInfo ? userInfo.goal : ""}
-            onChangeText={(text) => setUserInfo({ ...userInfo, goal: text })}
+            onChangeText={(text) =>
+              setUserInfo({ ...userInfo, goal: text ?? "" })
+            }
             autoCorrect={false}
           />
         </View>
@@ -390,7 +396,9 @@ const EditProfileScreen = ({ navigation }) => {
             placeholderTextColor="#666666"
             style={styles.textInput}
             value={userInfo ? userInfo.history : ""}
-            onChangeText={(text) => setUserInfo({ ...userInfo, history: text })}
+            onChangeText={(text) =>
+              setUserInfo({ ...userInfo, history: text ?? "" })
+            }
             autoCorrect={false}
           />
         </View>
@@ -402,7 +410,9 @@ const EditProfileScreen = ({ navigation }) => {
             placeholderTextColor="#666666"
             style={styles.textInput}
             value={userInfo ? userInfo.sport : ""}
-            onChangeText={(text) => setUserInfo({ ...userInfo, sport: text })}
+            onChangeText={(text) =>
+              setUserInfo({ ...userInfo, sport: text ?? "" })
+            }
             autoCorrect={false}
           />
         </View>
@@ -415,7 +425,9 @@ const EditProfileScreen = ({ navigation }) => {
             placeholderTextColor="#666666"
             style={styles.textInput}
             value={userInfo ? userInfo.Age : ""}
-            onChangeText={(text) => setUserInfo({ ...userInfo, Age: text })}
+            onChangeText={(text) =>
+              setUserInfo({ ...userInfo, Age: text ?? "" })
+            }
             autoCorrect={false}
             keyboardType="number-pad"
             returnKeyType="done"
@@ -429,7 +441,9 @@ const EditProfileScreen = ({ navigation }) => {
             placeholderTextColor="#666666"
             style={styles.textInput}
             value={userInfo ? userInfo.Height : ""}
-            onChangeText={(text) => setUserInfo({ ...userInfo, Height: text })}
+            onChangeText={(text) =>
+              setUserInfo({ ...userInfo, Height: text ?? "" })
+            }
             autoCorrect={false}
             keyboardType="number-pad"
             returnKeyType="done"
@@ -443,7 +457,9 @@ const EditProfileScreen = ({ navigation }) => {
             placeholderTextColor="#666666"
             style={styles.textInput}
             value={userInfo ? userInfo.Weight : ""}
-            onChangeText={(text) => setUserInfo({ ...userInfo, Weight: text })}
+            onChangeText={(text) =>
+              setUserInfo({ ...userInfo, Weight: text ?? "" })
+            }
             autoCorrect={false}
             keyboardType="number-pad"
             returnKeyType="done"
@@ -544,7 +560,9 @@ const EditProfileScreen = ({ navigation }) => {
             placeholderTextColor="#666666"
             style={styles.textInput}
             value={userInfo ? userInfo.Imc : ""}
-            onChangeText={(text) => setUserInfo({ ...userInfo, Imc: text })}
+            onChangeText={(text) =>
+              setUserInfo({ ...userInfo, Imc: text ?? "" })
+            }
             autoCorrect={false}
             keyboardType="number-pad"
             returnKeyType="done"
@@ -558,7 +576,9 @@ const EditProfileScreen = ({ navigation }) => {
             placeholderTextColor="#666666"
             style={styles.textInput}
             value={userInfo ? userInfo.Grasa : ""}
-            onChangeText={(text) => setUserInfo({ ...userInfo, Grasa: text })}
+            onChangeText={(text) =>
+              setUserInfo({ ...userInfo, Grasa: text ?? "" })
+            }
             autoCorrect={false}
             keyboardType="number-pad"
             returnKeyType="done"
@@ -572,7 +592,9 @@ const EditProfileScreen = ({ navigation }) => {
             placeholderTextColor="#666666"
             style={styles.textInput}
             value={userInfo ? userInfo.Musculo : ""}
-            onChangeText={(text) => setUserInfo({ ...userInfo, Musculo: text })}
+            onChangeText={(text) =>
+              setUserInfo({ ...userInfo, Musculo: text ?? "" })
+            }
             autoCorrect={false}
             keyboardType="number-pad"
             returnKeyType="done"
@@ -586,7 +608,9 @@ const EditProfileScreen = ({ navigation }) => {
             placeholderTextColor="#666666"
             style={styles.textInput}
             value={userInfo ? userInfo.Basal : ""}
-            onChangeText={(text) => setUserInfo({ ...userInfo, Basal: text })}
+            onChangeText={(text) =>
+              setUserInfo({ ...userInfo, Basal: text ?? "" })
+            }
             autoCorrect={false}
             keyboardType="number-pad"
             returnKeyType="done"
@@ -601,7 +625,7 @@ const EditProfileScreen = ({ navigation }) => {
             style={styles.textInput}
             value={userInfo ? userInfo.GoalBasal : ""}
             onChangeText={(text) =>
-              setUserInfo({ ...userInfo, GoalBasal: text })
+              setUserInfo({ ...userInfo, GoalBasal: text ?? "" })
             }
             autoCorrect={false}
             keyboardType="number-pad"
@@ -616,7 +640,9 @@ const EditProfileScreen = ({ navigation }) => {
             placeholderTextColor="#666666"
             style={styles.textInput}
             value={userInfo ? userInfo.Agua : ""}
-            onChangeText={(text) => setUserInfo({ ...userInfo, Agua: text })}
+            onChangeText={(text) =>
+              setUserInfo({ ...userInfo, Agua: text ?? "" })
+            }
             autoCorrect={false}
             keyboardType="number-pad"
             returnKeyType="done"
@@ -631,7 +657,7 @@ const EditProfileScreen = ({ navigation }) => {
             style={styles.textInput}
             value={userInfo ? userInfo.Proteina : ""}
             onChangeText={(text) =>
-              setUserInfo({ ...userInfo, Proteina: text })
+              setUserInfo({ ...userInfo, Proteina: text ?? "" })
             }
             autoCorrect={false}
             keyboardType="number-pad"
@@ -646,7 +672,9 @@ const EditProfileScreen = ({ navigation }) => {
             placeholderTextColor="#666666"
             style={styles.textInput}
             value={userInfo ? userInfo.Osea : ""}
-            onChangeText={(text) => setUserInfo({ ...userInfo, Osea: text })}
+            onChangeText={(text) =>
+              setUserInfo({ ...userInfo, Osea: text ?? "" })
+            }
             autoCorrect={false}
             keyboardType="number-pad"
             returnKeyType="done"
@@ -661,7 +689,7 @@ const EditProfileScreen = ({ navigation }) => {
             style={styles.textInput}
             value={userInfo ? userInfo.Metabolica : ""}
             onChangeText={(text) =>
-              setUserInfo({ ...userInfo, Metabolica: text })
+              setUserInfo({ ...userInfo, Metabolica: text ?? "" })
             }
             autoCorrect={false}
             keyboardType="number-pad"
@@ -676,7 +704,9 @@ const EditProfileScreen = ({ navigation }) => {
             placeholderTextColor="#666666"
             style={styles.textInput}
             value={userInfo ? userInfo.Viseral : ""}
-            onChangeText={(text) => setUserInfo({ ...userInfo, Viseral: text })}
+            onChangeText={(text) =>
+              setUserInfo({ ...userInfo, Viseral: text ?? "" })
+            }
             autoCorrect={false}
             keyboardType="number-pad"
             returnKeyType="done"
