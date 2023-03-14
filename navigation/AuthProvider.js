@@ -568,7 +568,7 @@ export const AuthProvider = ({ children, navigation }) => {
           }
         },
         newEval: async (title) => {
-          console.log("creating new eval", title);
+          console.log("creating new eval", user.uid);
           try {
             await dbME.doc(user.uid).collection("Member Evals").doc().set(
               {
@@ -766,6 +766,7 @@ export const AuthProvider = ({ children, navigation }) => {
           try {
             await dbME.doc(user.uid).collection("Member Evals").doc(evalId).set(
               {
+                Peso: evalInfo.Peso,
                 Imc: evalInfo.Imc,
                 Grasa: evalInfo.Grasa,
                 Musculo: evalInfo.Musculo,

@@ -3,7 +3,7 @@
     "name": "NoExcusasFTC",
     "slug": "NoExcusasFTC",
     "scheme": "com.ccraig09.noexcusasftc",
-    "version": "3.0.1",
+    "version": "3.0.7",
     "orientation": "portrait",
     "icon": "./assets/appOldLogo.png",
     "splash": {
@@ -56,7 +56,7 @@
       },
       "package": "com.ccraig09.NoExcusasFTC",
       "googleServicesFile": "./google-services.json",
-      "versionCode": 32,
+      "versionCode": 38,
       "permissions": [
         "android.permission.READ_EXTERNAL_STORAGE",
         "android.permission.WRITE_EXTERNAL_STORAGE",

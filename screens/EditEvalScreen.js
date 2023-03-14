@@ -125,7 +125,20 @@ const EditEvalScreen = ({ navigation, route }) => {
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <InfoText text="Evaluacion" />
-
+        <View style={styles.action}>
+          <Input
+            label="Peso"
+            leftIcon={{ type: "font-awesome", name: "line-chart" }}
+            placeholder={"Peso"}
+            placeholderTextColor="#666666"
+            style={styles.textInput}
+            value={EvalInfo ? EvalInfo.Peso : ""}
+            onChangeText={(text) => setEvalInfo({ ...EvalInfo, Peso: text })}
+            autoCorrect={false}
+            keyboardType="number-pad"
+            returnKeyType="done"
+          />
+        </View>
         <View style={styles.action}>
           <Input
             label="IMC"

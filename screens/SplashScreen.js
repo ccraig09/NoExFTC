@@ -14,11 +14,8 @@ import { LinearGradient } from "expo-linear-gradient";
 import Colors from "../constants/Colors";
 
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import { useTheme } from "@react-navigation/native";
 
 const SplashScreen = ({ navigation }) => {
-  const { colors } = useTheme();
-
   const startHandler = () => {
     Alert.alert(
       "Ya tienes una Cuenta?",

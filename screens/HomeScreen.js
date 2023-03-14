@@ -342,7 +342,7 @@ const HomeScreen = ({ navigation }) => {
           icon={{ name: "user", type: "font-awesome" }}
           // }
           // style={{ padding: 0 }}
-          source={{ uri: `${userInfo.userImg}` }}
+          source={{ uri: null }}
           onPress={() => {
             if (!userInfo.userImg) {
               navigation.navigate("Edit");

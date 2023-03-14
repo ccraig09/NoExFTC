@@ -51,14 +51,20 @@ const AppStack = () => {
   // }
   return (
     <Tab.Navigator
-      initialRouteName="Home"
-      tabBarOptions={{
-        activeTintColor: Colors.noExprimary,
+      initialRouteName="Main"
+      screenOptions={{
+        tabBarActiveTintColor: Colors.noExprimary,
+        tabBarStyle: [
+          {
+            display: "flex",
+          },
+          null,
+        ],
       }}
       style={{ backgroundColor: "blue" }}
     >
       <Tab.Screen
-        name="Home"
+        name="Main"
         component={HomeStack}
         options={{
           headerShown: false,
@@ -72,7 +78,7 @@ const AppStack = () => {
         }}
       />
       <Tab.Screen
-        name="Profile"
+        name="ProfileTab"
         component={ProfileStackScreen}
         options={{
           headerShown: false,
@@ -83,7 +89,7 @@ const AppStack = () => {
         }}
       />
       <Tab.Screen
-        name="Information"
+        name="InformationTab"
         component={InformationStack}
         options={{
           headerShown: false,

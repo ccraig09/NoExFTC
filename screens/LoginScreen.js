@@ -16,13 +16,13 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import Colors from "../constants/Colors";
 // import Input from "../components/UI/Input";
-import Card from "../components/UI/Card";
+// import Card from "../components/UI/Card";
 import validator from "validator";
 // import { Input } from "react-native-elements";
 import * as Animatable from "react-native-animatable";
 
-import FormInput from "../components/FormInput";
-import FormButton from "../components/FormButton";
+// import FormInput from "../components/FormInput";
+// import FormButton from "../components/FormButton";
 // import SocialButton from "../components/SocialButton";
 import { AuthContext } from "../navigation/AuthProvider";
 // import * as Google from "expo-google-app-auth";
